@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Movie Recommendations</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h2 { text-align: center; }
+        form { text-align: center; margin: 20px 0; }
+        select { padding: 5px; width: 300px; }
+        button { padding: 10px 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h2>Welcome, {{ session['username'] }}!</h2>
+    <p><a href="{{ url_for('logout') }}">Logout</a></p>
+
+    <form method="POST" action="{{ url_for('recommend_page') }}">
+        <label for="movie">Select a movie:</label><br>
+        <select name="movie" id="movie" required>
+            {% for movie in movies %}
+                <option value="{{ movie }}" {% if movie == selected_movie %}selected{% endif %}>{{ movie }}</option>
+            {% endfor %}
+        </select><br>
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    {% if recommendations %}
+        <h3>Recommended Movies for {{ selected_movie }}:</h3>
+        <ul>
+            {% for rec in recommendations %}
+                <li>{{ rec }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
